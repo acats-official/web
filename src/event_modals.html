@@ -1,0 +1,66 @@
+{% assign events = "" | split: ',' %}
+{% for event_file in site.data.events %}
+    {% if event_file[0] == 'TEMPLATE' %}
+          {% continue %}
+    {% endif %}
+{% assign events = events | push: event_file[1] %}
+{% endfor %}
+{% assign events = events | sort: 'date' | reverse %}
+
+{% for event in events %}
+<!-- Liquid loops starts at 1 -->
+{% assign last_id = forloop.index | to_i | minus: 2 %}
+{% assign next_id = forloop.index | to_i %}
+<div class="general-modal modal fade" id="timelineModal{{ event.id }}" tabindex="-1" role="dialog" aria-hidden="true" autofocus>
+    <div class="modal-content">
+        <div class="container">
+            <div class="row" style="display: flex; justify-content: center !important;">
+                <div class="col-sm-8 col-md-8 col-lg-8">
+                    <div class="modal-body">
+                        <h3>{{ event.name }}</h3>
+                        <h4>{{ event.date }}</h4>
+                        <img class="img-responsive img-centered" loading="lazy" src="{{ event.image }}" style="border-radius:25px;width:90%;height:auto;">
+                        <h5 class="subheading">{{ event.description | slice: 0, 150 }}</h5>
+                        <hr>
+                        <div style="text-align: left !important">
+                        <p>{{ event.story }}</p>
+                        </div>
+                        <hr>
+                        <p>// {{ event.written_by_mupp }} - {{ event.written_date }} </p>
+                        {% if forloop.index  > 1 %}
+                        <a id='goto_last{{event.id}}'class="btn btn-primary" style="margin:5px" href="#timelineModal{{ events[last_id].id }}" data-dismiss="modal" class="timeline-link" data-toggle="modal" autofocus> < </a>
+                        {% endif %}
+                        <a class="btn btn-info" style="margin:5px" class="btn btn-danger" data-dismiss="modal"><b>STÄNG</b></a>
+                        {% if forloop.index < events.size %}
+                        <a id='goto_next{{event.id}}' class="btn btn-primary" style="margin:5px" href="#timelineModal{{ events[next_id].id }}" data-dismiss="modal" class="timeline-link" data-toggle="modal" autofocus> > </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+// Minor fixes to properly support keyboard navigation
+
+$(document).ready(function () {
+    $(document).on('show.bs.modal','#timelineModal{{ event.id }}', function () {
+        setTimeout(function(){
+            $('#timelineModal{{ event.id }}').focus();
+            $('#timelineModal{{ event.id }}').animate({ scrollTop: 0 }, 'fast');
+        }, 200) // DOM needs to be done before calling focus
+    })
+
+    $(document).on('keyup','#timelineModal{{ event.id }}', function (e) {
+        if(e.keyCode == 37 & {{ forloop.index }} > 1 ){
+            document.getElementById('goto_last{{event.id}}').click();
+        }
+        if(e.keyCode == 39 & {{ forloop.index }} < {{ events.size }}){
+            document.getElementById('goto_next{{event.id}}').click();
+        }
+    })
+
+})
+
+</script>
+{% endfor %}

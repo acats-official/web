@@ -1,0 +1,24 @@
+title: Aristocats
+# Baseurl must be empty to work on github pages
+baseurl: 
+url: http://hnkelau.github.io/
+
+facebook_url: https://www.facebook.com/acats.official
+
+color:
+  primary: 41af6d # Äppelblomsgrön
+  secondary: 333333
+
+font:
+  primary: 'Montserrat, "Helvetica Neue",Helvetica,Arial,sans-serif'
+  secondary: '"Droid Serif", "Helvetica Neue", Helvetica,Arial,sans-serif'
+
+# Build settings
+theme: minima
+
+# Modify default values
+data_dir: content
+destination: .compiled
+includes_dir: src
+layouts_dir: src/layouts
+

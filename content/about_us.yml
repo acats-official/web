@@ -1,0 +1,41 @@
+strengths:
+  - name: Show
+    description: > 
+      "Vi har lång erfarenhet av att erbjuda underhållning via flertal olika medium.
+      Vi jobbar såväl inbördes som externt för både den lilla och den stora publiken.
+      <br>
+      Årligen håller även föreningen föreläsningar TAEN33, HAEN69 samt TAEN35 för blivande datateknologer på campus Valla i Linköping."
+    fa-icon: fa-masks-theater
+    imgs:
+      - img/strengths/show_1.jpg
+      - img/strengths/show_2.jpg
+      - img/strengths/show_3.jpg
+  - name: Gäst
+    description: >
+      "Gästvänlighet har länge varit en stöttepelare i föreningen och vi erbjuder en service utöver det vanliga vid vår gästkontakt. 
+      Under åren har vi levererat helhetsupplevelser för tusentals individer där samkväm, underhållning och trygghet alltid varit närvarande."
+    fa-icon: fa-person-walking-luggage
+    imgs:
+      - img/strengths/guest_1.jpg
+      - img/strengths/guest_2.jpg
+      - img/strengths/guest_3.jpg
+  - name: Bar
+    description: "Mittpunkten och den gemensamma nämnaren hos medlemmarna i föreningen har sedan grundandet varit aktivitet kring baren. Aristocats har således under åren samlat på sig mycket stor erfarenhet av alkoholhantering, såväl bakom som framför baren.
+      <br>
+      <br>
+        <b>Aristocats motton:</b>
+      <br>
+        Alltid  snyggt klädda.
+      <br>
+        Vänligt bemötande.
+      <br>
+        Kunden har alltid rätt (i 99% av fallen).
+      <br>
+        En nöjd kund kommer tillbaka. 
+      <br>
+        Vi blandar ALLA drinkar som finns. 
+        "
+    fa-icon: fa-martini-glass
+    imgs:
+      - img/strengths/bar_1.jpg
+      - img/strengths/bar_2.jpg

@@ -1,0 +1,46 @@
+<section id="our_journey" class="bg-light-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">Vår resa</h2>
+                <hr>
+                <h3 class="section-subheading">Här följer ett utdrag ur alla våra äventyr genom åren. Klicka runt i tidslinjen för att förkovra dig vidare.
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="timeline">
+                <!-- Get the events from _data/events and sort them chronologically -->
+                {% assign events = "" | split: ',' %}
+                {% for event_file in site.data.events %}
+                {% if event_file[0] == 'TEMPLATE' %}
+                      {% continue %}
+                {% endif %}
+
+                {% assign events = events | push: event_file[1] %}
+                {% endfor %}
+
+                {% assign founded_event = site.data.founded %}
+                {% assign events = events | sort: 'date' | reverse %}
+
+                {% for event in events %}
+                    <li class={% cycle "", "timeline-inverted" %}>
+                        <a href="#timelineModal{{ event.id }}" class="timeline-link" data-toggle="modal">
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="{{ event.image }}" style="margin:5% 5%;width:90%;height:90%;object-fit:cover">
+                            </div>
+                        </a>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h3 class="text-muted">{{ event.name }}</h3>
+                                <h4 class="text-muted">{{ event.date }}</h4>
+                                <h5 class="subheading">{{ event.description | slice: 0, 150 }}</h5>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

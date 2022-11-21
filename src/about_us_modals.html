@@ -1,0 +1,54 @@
+{% assign strengths = site.data.about_us.strengths %}
+{% for strength in strengths %}
+{% assign last_idx = forloop.index | to_i | minus: 2 %}
+{% assign next_idx = forloop.index | to_i %}
+<div class="general-modal modal fade" id="strengthModal{{ strength.name }}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="container">
+            <div class="row" style="display: flex; justify-content: center !important;">
+                <div class="col-sm-8 col-md-8 col-lg-8">
+                    <div class="modal-body">
+                        <h3>{{ strength.name }}</h3>
+                        <hr class="star-primary">
+                        <p>{{ strength.description }}</p>
+                         {% for img in strength.imgs %}
+                            <img src="{{ img }}" class="img-responsive img-centered" loading="lazy" style="width:100%;height:auto; padding: 5px; border-radius: 25px;">
+                        {% endfor %}
+                        <hr>
+                        {% if forloop.index  > 1 %}
+                        <a id='goto_last{{strength.name}}'class="btn btn-primary" style="margin:5px" href="#strengthModal{{ strengths[last_idx].name }}" data-dismiss="modal" class="timeline-link" data-toggle="modal" autofocus> < </a>
+                        {% endif %}
+                        <a class="btn btn-info" style="margin:5px" class="btn btn-danger" data-dismiss="modal"><b>STÄNG</b></a>
+                        {% if forloop.index < strengths.size %}
+                        <a id='goto_next{{strength.name}}' class="btn btn-primary" style="margin:5px" href="#strengthModal{{ strengths[next_idx].name }}" data-dismiss="modal" class="timeline-link" data-toggle="modal" autofocus> > </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+// Minor fixes to properly support keyboard navigation
+
+$(document).ready(function () {
+    $(document).on('show.bs.modal','#strengthModal{{ strength.name }}', function () {
+        setTimeout(function(){
+            $('#strengthModal{{ strength.name }}').focus();
+            $('#strengthModal{{ strength.name }}').animate({ scrollTop: 0 }, 'fast');
+        }, 200) // DOM needs to be done before calling focus
+    })
+
+    $(document).on('keyup','#strengthModal{{ strength.name }}', function (e) {
+        if(e.keyCode == 37 & {{ forloop.index }} > 1 ){
+            document.getElementById('goto_last{{strength.name}}').click();
+        }
+        if(e.keyCode == 39 & {{ forloop.index }} < {{ strengths.size }}){
+            document.getElementById('goto_next{{strength.name}}').click();
+        }
+    })
+
+})
+
+</script>
+{% endfor %}

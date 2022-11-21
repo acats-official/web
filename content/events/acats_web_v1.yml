@@ -1,0 +1,11 @@
+name:  "Acats.org v1"
+id: "acats_web_v1"
+date: "1998-09-04"
+description: "Aristocats goes Internet"
+written_date: "2023-02-18"
+written_by_mupp: "Jesu Mupp"
+image: "img/events/acats_web_v1/screenshot.png"
+story: |
+  Aristocats lanserar sin första version av acats.org i startgroparna av IT-bubblan. Sidan är ett stort genombrott och driver rejält med  trafik tack vare sin "drink database" som blir populär över hela världen. <br>
+  Tjänsten drevs med den då relativt unga databasen MySQL och en Roxen-webserver. Både sök-tjänsen och webservern och var skrivna i språket pike utvecklat av föreningen Lysator vid Linköpings Universitet.<br>
+  Källkoden till tjänsten kan för den nyfikne laddas ner i sin naturliga form <a href="content/misc/search.pike">här</a>. Databasen har dock inte stått pall tidens test.
