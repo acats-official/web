@@ -16,8 +16,8 @@ Hör av dig till någon av ägarna i repot för att bli `collaborator` och tillf
 1. Kontakta någon av ägarna i repot för att få lämpliga behörigheter.
 2. Klona ner repo:t.
 3. Skapa en branch från `main` med ett rimligt namn.
-4. Kopiera `/events/TEMPLATE.yml` och ge den ett passande namn.
-5. Fyll i samtliga parametrar. Se övriga *.yml i /events för inspiration. 
+4. Kopiera `/content/events/TEMPLATE.yml` och ge den ett passande namn.
+5. Fyll i samtliga parametrar. Se övriga *.yml i /content/events/ för inspiration. 
 5. Eventuella bilder läggs på rimlig plats i '/img/events/'. Komprimera ner bilder till jpg och under 1MB.
 7. Kör jekyll lokalt och kontrollera att allt ser ut som tänkt.
 8. Tänk på att inte lägga upp alltför personliga eller förnedrande texter och bilder...
@@ -27,6 +27,6 @@ Hör av dig till någon av ägarna i repot för att bli `collaborator` och tillf
 ## Förbättringar
 - Fördjupad och förlängd tidslinje.
 - Lägg till swipe-support på tidslinjen.
-- Generell förbättring av CSS/flytt av in-line styling.
+- Generell förbättring av CSS och flytt av in-line styling.
 - Aristocats-ifiera sidan ytterligare.
 - En datumbaserad alternativ banner/dropdown/popup under nolle-p med exempelvis caps-regler.
