@@ -33,6 +33,7 @@
 
 $(document).ready(function () {
     $(document).on('show.bs.modal','#strengthModal{{ strength.name }}', function () {
+        emit("navigation", {'type':'show_strength', 'target': '{{strength.name}}'})
         setTimeout(function(){
             $('#strengthModal{{ strength.name }}').focus();
             $('#strengthModal{{ strength.name }}').animate({ scrollTop: 0 }, 'fast');

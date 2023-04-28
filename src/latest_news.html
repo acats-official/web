@@ -14,7 +14,7 @@
         <div class="row text-center">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 <h3 class="section-heading">{{ last_event.name }}</h3>
-                <a href="#our_journey" class="page-scroll">
+                <a href="#our_journey" class="page-scroll" onclick="emit('navigation', {'type':'latest_event'})">
                 <img class="img-responsive" style="width: 100%; border-radius: 10%;" src="{{ last_event.image }}">
                 <h4 class="service-heading" href="#our_journey">Läs mer! </h4></a>
             </div>

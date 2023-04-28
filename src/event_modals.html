@@ -28,11 +28,12 @@
                         <hr>
                         <p>// {{ event.written_by_mupp }} - {{ event.written_date }} </p>
                         {% if forloop.index  > 1 %}
-                        <a id='goto_last{{event.id}}'class="btn btn-primary" style="margin:5px" href="#timelineModal{{ events[last_id].id }}" data-dismiss="modal" class="timeline-link" data-toggle="modal" autofocus> < </a>
+                        <a id='goto_last{{event.id}}'class="btn btn-primary" style="margin:5px" href="#timelineModal{{ events[last_id].id }}" data-dismiss="modal" class="timeline-link" data-toggle="modal" onclick="emit('navigation', {'type':'last_event'})" autofocus> < </a>
                         {% endif %}
                         <a class="btn btn-info" style="margin:5px" class="btn btn-danger" data-dismiss="modal"><b>STÄNG</b></a>
                         {% if forloop.index < events.size %}
-                        <a id='goto_next{{event.id}}' class="btn btn-primary" style="margin:5px" href="#timelineModal{{ events[next_id].id }}" data-dismiss="modal" class="timeline-link" data-toggle="modal" autofocus> > </a>
+                        <a id='goto_next{{event.id}}' class="btn btn-primary" style="margin:5px" href="#timelineModal{{ events[next_id].id }}" data-dismiss="modal" class="timeline-link" data-toggle="modal" onclick="emit('navigation', {'type':'next_event'})" autofocus> > </a>
+            
                         {% endif %}
                     </div>
                 </div>
@@ -45,6 +46,7 @@
 
 $(document).ready(function () {
     $(document).on('show.bs.modal','#timelineModal{{ event.id }}', function () {
+        emit("navigation", {'type':'show_event', 'target': '{{event.name}}'})
         setTimeout(function(){
             $('#timelineModal{{ event.id }}').focus();
             $('#timelineModal{{ event.id }}').animate({ scrollTop: 0 }, 'fast');
@@ -53,9 +55,11 @@ $(document).ready(function () {
 
     $(document).on('keyup','#timelineModal{{ event.id }}', function (e) {
         if(e.keyCode == 37 & {{ forloop.index }} > 1 ){
+            emit("navigation", {'type':'last_event'})
             document.getElementById('goto_last{{event.id}}').click();
         }
         if(e.keyCode == 39 & {{ forloop.index }} < {{ events.size }}){
+            emit("navigation", {'type':'next_event'})
             document.getElementById('goto_next{{event.id}}').click();
         }
     })
