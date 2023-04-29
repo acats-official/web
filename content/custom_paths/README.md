@@ -1,0 +1,1 @@
+All *.html files in this directory are copied to the root during the GitHub Actions pipeline.
