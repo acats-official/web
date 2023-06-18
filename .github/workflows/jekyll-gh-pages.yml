@@ -29,7 +29,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Copy Custom Paths
-        run: cp -n content/custom_paths/*.html .
+        run: cp -R content/custom_paths/* .
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Build with Jekyll
