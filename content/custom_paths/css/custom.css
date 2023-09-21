@@ -1,0 +1,22 @@
+.table-scroll {
+    margin: auto;
+    width: 100%;
+    text-transform: uppercase;
+    max-width: 1000px;
+    border-radius: 10px;
+}
+th {
+    text-align: left;
+    font-weight: bold;
+    font-size: 150%
+}
+td {
+    text-align: left;
+    font-size: 120%
+}
+
+td, th, caption {
+    padding: 0px;
+}
+
+
