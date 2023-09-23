@@ -36,14 +36,13 @@ function metamorph() {
 shown_chars = 2
 full_version = "2760 VINO TINTO ESPAÑOL "
 spanish_flag = "&#127466;&#127480;"
-function vino_tinto_version() {
+function vino_tinto_version(element) {
     if (shown_chars == 2) emit("easter_egg", {'type':'vino_tinto'})
-    document.getElementById("sub_version").innerHTML = full_version.substring(0, ++shown_chars);
+    element.innerHTML = full_version.substring(0, ++shown_chars);
     if (shown_chars >= full_version.length) {
         if (shown_chars == full_version.length) emit("easter_egg", {'type':'vino_tinto_espanol'})
-        document.getElementById("sub_version").innerHTML += spanish_flag
+        element.innerHTML += spanish_flag
     }
-
 }
 
 function tab_name_rotator() {
