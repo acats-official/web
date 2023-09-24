@@ -23,4 +23,8 @@ td, th, caption {
   img {
     width: 100%;
   }
+    td {
+        text-align: left;
+        font-size: 80%
+    }
 }
