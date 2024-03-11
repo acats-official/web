@@ -125,6 +125,5 @@ function setup_bottles(amount) {
 const viewportWidth = window.innerWidth;
 
 if (window.matchMedia("(min-width: 1300px)").matches) {
-    emit("easter_egg", {'type':'bottles'})
     setup_bottles((window.innerWidth - 1300) / 300)
 }
