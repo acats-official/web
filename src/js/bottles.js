@@ -97,11 +97,12 @@ function setup_bottles(amount) {
 
     var image = new Image();
     image.src = 'img/misc/tinto.svg'; // Replace 'image.jpg' with the path to your image file
-    var imageWidth = 199;
-    var imageHeight = 684;
+    var imageWidth = 200;
+    var imageHeight = 700;
 
     for (let i = 0; i < amount; i++) {
-        var imageBody = Bodies.rectangle(width-100-i*60, height-100, imageWidth/4-5, imageHeight/4+5, {
+        var rnd_off =Math.floor(Math.random() * 50)
+        var imageBody = Bodies.rectangle(width-100-i*70+rnd_off, height-100, imageWidth/4-5, imageHeight/4+5, {
             render: {
                 fillStyle: 'red',
                 sprite: {
@@ -126,5 +127,5 @@ const viewportWidth = window.innerWidth;
 
 if (window.matchMedia("(min-width: 1300px)").matches) {
     emit("easter_egg", {'type':'bottles'})
-    setup_bottles((window.innerWidth - 1300) / 300)
+    setup_bottles((window.innerWidth - 1300) / 150)
 }
