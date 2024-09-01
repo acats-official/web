@@ -1,26 +1,52 @@
+var world, Bodies, Composite
+var image = new Image();
+image.src = 'img/misc/tinto.svg';
+var imageWidth = 200;
+var imageHeight = 700;
+
+var canvas_div = document.getElementById('bottles')
+var width = canvas_div.clientWidth;
+var height = canvas_div.clientHeight;
+
+function spawn_bottles() {
+    var rnd_off =Math.floor(Math.random() * width)
+    var imageBody = Bodies.rectangle(rnd_off, height-400, imageWidth/4-5, imageHeight/4+5, {
+        render: {
+            fillStyle: 'red',
+            sprite: {
+            texture: image.src,
+                xScale: 1.2,
+                yScale: 1.2
+        }
+        }
+    });
+
+    Matter.Body.rotate(imageBody, rnd_off)
+
+
+    Composite.add(world, [imageBody]);
+}
+
 function setup_bottles(amount) {
 
 
     var Engine = Matter.Engine,
         Render = Matter.Render,
         Runner = Matter.Runner,
-        Bodies = Matter.Bodies,
-        Common = Matter.Common,
-        Composite = Matter.Composite,
         MouseConstraint = Matter.MouseConstraint,
         Mouse = Matter.Mouse,
         Svg = Matter.Svg,
         World = Matter.World;
+
+    Composite = Matter.Composite,
+    Bodies = Matter.Bodies
 
 
     var engine = Engine.create();
     world = engine.world
     world.gravity.y = 2;
 
-    var canvas_div = document.getElementById('bottles')
 
-    var width = canvas_div.clientWidth;
-    var height = canvas_div.clientHeight;
 
     var render = Render.create({
         element: canvas_div,
@@ -95,10 +121,6 @@ function setup_bottles(amount) {
     ]);
 
 
-    var image = new Image();
-    image.src = 'img/misc/tinto.svg'; // Replace 'image.jpg' with the path to your image file
-    var imageWidth = 200;
-    var imageHeight = 700;
 
     for (let i = 0; i < amount; i++) {
         var rnd_off =Math.floor(Math.random() * 50)
@@ -127,5 +149,5 @@ const viewportWidth = window.innerWidth;
 
 if (window.matchMedia("(min-width: 1300px)").matches) {
     emit("easter_egg", {'type':'bottles'})
-    setup_bottles((window.innerWidth - 1300) / 150)
+    setup_bottles((window.innerWidth - 1050) / 150)
 }

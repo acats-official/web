@@ -201,6 +201,16 @@ header {
     z-index: 5;
 }
 
+#speaker-icon {
+    color: grey;
+    height: 200px;
+    position: absolute;
+    z-index: 20;
+    display: inline-block;
+    right: 10px;
+    top: 10px;
+}
+
 .cat {
     content: url('{{ site.baseurl }}/img/misc/cat_light_gray.png');
     width: 200px;

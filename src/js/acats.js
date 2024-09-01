@@ -4,10 +4,17 @@ function confetti_party(sec) {
     const colors = ["#41af6d", "#ffffff"];
     (function frame() {
       confetti({
-          particleCount: 2,
+          particleCount: 5,
           angle: 45,
-          spread: 50,
+          spread: 10,
           origin: { x: 0, y:0.4 },
+          colors: colors,
+        });
+      confetti({
+          particleCount: 5,
+          angle: 135,
+          spread: 10,
+          origin: { x: 1, y:0.4 },
           colors: colors,
         });
 
@@ -18,10 +25,11 @@ function confetti_party(sec) {
 }
 
 var clicks = 0;
-var confetti_threshold = 7
+var confetti_threshold = 5
 var cat = true;
 var aristostates = ["beaver", "cat"];
 function metamorph() {
+    spawn_bottles()
     if (clicks == 0) emit("easter_egg", {'type':'metamorph'})
 
     cat = !cat
@@ -96,6 +104,24 @@ function beaver() {
 `)
 }
 beaver()
+
+mute = true
+var audio = new Audio('content/misc/untsunts.mp3');
+audio.loop = true;
+function musica() {
+    mute = !mute
+    elem = document.getElementById('speaker-icon')
+    if (mute) {
+        elem.classList.remove("fa-volume-up");
+        elem.classList.add("fa-volume-mute");
+        audio.pause()
+    } else  {
+        emit("easter_egg", {'type':'music'})
+        elem.classList.remove("fa-volume-mute");
+        elem.classList.add("fa-volume-up");
+        audio.play()
+    }
+}
 
 function emit(name, props) {
     posthog.capture(name, props);
