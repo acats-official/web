@@ -8,9 +8,10 @@ Hör av dig till någon av ägarna i repot för att bli `collaborator` och tillf
 
 ## Lokal utvecklingsmiljö
 1. Installera ruby och eventuellt ruby-dev.
-2. Kör `bundle install` från rotkatalogen för att installera samtliga gems.
-2. Kör `bundle exec jekyll serve` från rotkatalogen.
-3. Jekylls utvecklingserver borde nu ha sidan tillgänglig på port 4000. 
+2. Installera bundeler via genom `gem install bundler`
+3. Kör `bundle install` från rotkatalogen för att installera samtliga gems.
+4. Kör `bundle exec jekyll serve` från rotkatalogen.
+5. Jekylls utvecklingserver borde nu ha sidan tillgänglig på port 4000. 
 
 ## Skapa händelse i tidslinje
 1. Kontakta någon av ägarna i repot för att få lämpliga behörigheter.
