@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Aristocats Krakow 2023</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/custom.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="js/acats.js"></script>
+    </head>
+    <script>
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+        posthog.init('phc_OFtyQTrftRQMa5SFuCnCxgJ4GjR8co1xhbsI0ZWCCJA',{api_host:'https://eu.posthog.com', capture_pageview:false, capture_pageleave:false, autocapture:false})
+        emit("navigation", {'type':'riga'})
+        load_no = 0
+    </script>
+	<body id="page-top">
+		<header class="masthead" style="padding: 20px">
+			<div class="container">
+				<h2 class="section-heading text-uppercase"></h2>
+				<br>
+				<div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative">
+					<table class="table table-dark sm-0 mb-0 lg-0" style="padding-left:10px;" id="csv-table">
+						<tbody>
+							<!-- CSV contents will go here -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</header>
+
+		<script>
+			async function loadCSVtoTable() {
+				const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRimZQ8zymoCuf-ie5ouZhEFOqCHNE8Xi_1SEIAcT_t4KDXJHHz1s3wPe8l-As0ou_5BFMm0sVEp6vd/pub?gid=373083032&single=true&output=csv');
+				const csvText = await response.text();
+				const rows = csvText.trim().split('\n');
+
+				const tbody = document.querySelector('#csv-table tbody');
+				rows.forEach(row => {
+					const tr = document.createElement('tr');
+					const td = document.createElement('td');
+					td.textContent = row.trim();
+					tr.appendChild(td);
+					tbody.appendChild(tr);
+				});
+			}
+
+			document.addEventListener('DOMContentLoaded', loadCSVtoTable);
+		</script>
+		<script>
+			fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRimZQ8zymoCuf-ie5ouZhEFOqCHNE8Xi_1SEIAcT_t4KDXJHHz1s3wPe8l-As0ou_5BFMm0sVEp6vd/pub?gid=2004175430&single=true&output=csv')
+			  .then(response => response.text())
+			  .then(csvText => {
+				const rows = csvText.split('\n');
+				const firstValue = rows[0].split(',')[0];
+				document.querySelector('h2').innerText = `Anmälda: ${firstValue} st`;
+			  });
+		  </script>
+	</body>
+
+</html>
