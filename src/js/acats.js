@@ -1,17 +1,17 @@
 function confetti_party(sec) {
     emit("easter_egg", {'type':'confetti'})
-    const end = Date.now() + sec * 1000;
+    const end = Date.now() + sec * 500;
     const colors = ["#41af6d", "#ffffff"];
     (function frame() {
       confetti({
-          particleCount: 5,
+          particleCount: 3,
           angle: 45,
           spread: 10,
           origin: { x: 0, y:0.4 },
           colors: colors,
         });
       confetti({
-          particleCount: 5,
+          particleCount: 3,
           angle: 135,
           spread: 10,
           origin: { x: 1, y:0.4 },
