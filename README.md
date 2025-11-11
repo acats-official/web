@@ -8,7 +8,8 @@ Hör av dig till någon av ägarna i repot för att bli `collaborator` och tillf
 
 ## Lokal utvecklingsmiljö
 1. Installera ruby och eventuellt ruby-dev.
-2. Installera bundeler via genom `gem install bundler`
+2. Kör `bundle config set path '~/.bundle'` eller dyl för att installera gems på user level, ej root.
+2. Installera bundler via genom `gem install bundler`
 3. Kör `bundle install` från rotkatalogen för att installera samtliga gems.
 4. Kör `bundle exec jekyll serve` från rotkatalogen.
 5. Jekylls utvecklingserver borde nu ha sidan tillgänglig på port 4000. 
