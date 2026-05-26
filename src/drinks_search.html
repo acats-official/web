@@ -48,7 +48,9 @@
             document.body.classList.remove('drinks-view');
         }
         var label = document.getElementById('view-toggle-label');
-        if (label) label.textContent = (view === 'drinks') ? 'Home' : 'Aristocats Cocktail Database (ACDB)';
+        // In drinks view the icon alone carries the "back to home" affordance;
+        // in site view we keep the full ACDB label so people see the entry point.
+        if (label) label.textContent = (view === 'drinks') ? '' : 'Aristocats Cocktail Database (ACDB)';
         var icon = document.getElementById('view-toggle-icon');
         if (icon) {
             icon.classList.remove('fa-martini-glass-citrus', 'fa-house');
