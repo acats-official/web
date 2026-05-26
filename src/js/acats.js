@@ -1,5 +1,4 @@
 function confetti_party(sec) {
-    emit("easter_egg", {'type':'confetti'})
     const end = Date.now() + sec * 500;
     const colors = ["#41af6d", "#ffffff"];
     (function frame() {
