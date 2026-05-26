@@ -759,3 +759,464 @@ img::-moz-selection {
 body {
     webkit-tap-highlight-color: #{{ site.color.primary }};
 }
+
+/* The ACDB toggle is its own fixed bar across the top — full width, always
+   visible, big tap target on mobile. The whole bar is the click area. */
+#acdb-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 44px;
+    z-index: 1000;     /* above timeline-image (100) and other content; modals stay above at 1051 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    font-family: {{ site.font.primary }};
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #{{ site.color.secondary }};
+    white-space: nowrap;
+    padding: 0 12px;
+}
+#acdb-bar:hover {
+    color: #{{ site.color.primary }};
+    background-color: #fff;
+}
+#acdb-bar #view-toggle-icon {
+    margin-left: 8px;
+}
+
+/* Make room for the fixed bar at the top of the viewport. */
+body {
+    padding-top: 44px;
+}
+
+/* Re-root the absolute-positioned banner elements (cat, speaker, slogan,
+   bottles) onto this container instead of the viewport. Because the container
+   sits in normal flow under the body's 44px top padding, every "top: X" inside
+   it now resolves to "44 + X" from the viewport — slogan and music icon land
+   just below the ACDB bar instead of underneath it. */
+#banner-area {
+    position: relative;
+}
+
+#drinks_search {
+    display: none;
+}
+body.drinks-view #latest_news,
+body.drinks-view #about,
+body.drinks-view #our_journey {
+    display: none;
+}
+body.drinks-view #drinks_search {
+    display: block;
+}
+#drink-search-results {
+    margin-top: 20px;
+}
+
+/* ---------- ACDB: filters under the search input ---------- */
+#drink-filters {
+    margin-top: 14px;
+    text-align: left;
+}
+.drink-filter-row {
+    margin: 12px 0;
+    display: flex;
+    flex-wrap: wrap;
+    /* Anchor the label to the top of the row, not the middle. When the chip
+       group wraps to multiple lines, `center` parked the label in the visual
+       middle of those lines, which made it unclear where Base ended and
+       Flavor began. Flex-start keeps the label on the same row as the first
+       chip line and gives a clear top edge per section. */
+    align-items: flex-start;
+    gap: 6px 12px;
+}
+/* Left column holding the label AND the per-category clear link stacked
+   vertically. Tight width — just enough to fit "Flavor:" + a couple px of
+   breathing room — so more of the row goes to chips on narrow viewports. */
+.drink-filter-side {
+    width: 60px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.drink-filter-label {
+    font-weight: 700;
+    font-size: 14px;
+    color: #{{ site.color.secondary }};
+    text-transform: uppercase;
+    /* Nudge down so the label baseline lines up with the first chip line's
+       text — the scaled checkbox makes the chip row a touch taller. */
+    padding-top: 4px;
+}
+/* Chip container: a CSS grid that stays orthogonal regardless of chip text
+   length. minmax(120px, 1fr) lets the grid fit 2+ columns on phones
+   (≈320-380px viewport) where the old 160px min forced a single column. */
+.drink-filter-chips {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px 14px;
+    flex: 1;
+}
+.drink-filter-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 15px;
+    color: #555;
+    font-weight: 400;
+    margin: 0;
+    cursor: pointer;
+    white-space: nowrap;
+    text-transform: capitalize;
+}
+.drink-filter-option input {
+    flex-shrink: 0;
+    margin: 0;
+    /* Native checkboxes don't have a width/height property that's universally
+       respected; transform scales the rendered control. 1.2 = ~20% larger. */
+    transform: scale(1.2);
+    /* Recolors the native checkbox's "checked" fill from the OS default blue
+       to ACATS green. Supported in all modern browsers (Chrome 93+, Firefox
+       92+, Safari 15.4+); older browsers fall back to the default. */
+    accent-color: #{{ site.color.primary }};
+}
+.drink-filter-option .opt-count {
+    color: #aaa;
+    font-size: 13px;
+    /* Count flows immediately after the name (the flex `gap: 6px` between
+       chip children handles spacing). No more right-edge pinning, so the
+       count sits visually next to the word it's qualifying. Tabular
+       numerals keep digit-width constant. */
+    font-variant-numeric: tabular-nums;
+}
+
+/* "✕ clear" link in the label column, directly below "Base:" / "Flavor:".
+   Hidden when no chips in that category are checked. */
+.drink-filter-clear {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #888;
+    cursor: pointer;
+    text-decoration: none;
+    user-select: none;
+}
+.drink-filter-clear:hover,
+.drink-filter-clear:focus {
+    color: #c0392b;
+    text-decoration: none;
+}
+.drink-filter-clear[hidden] {
+    display: none !important;
+}
+
+/* "Clear all filters" link inside the empty-state block. */
+.drink-reset-all {
+    display: inline-block;
+    margin-top: 10px;
+    color: #{{ site.color.primary }};
+    text-decoration: underline;
+    cursor: pointer;
+}
+.drink-reset-all:hover,
+.drink-reset-all:focus {
+    color: #{{ site.color.secondary }};
+}
+
+/* Intro CTA — shown once per session, until the user filters/searches or
+   clicks "See all drinks". */
+.drink-intro {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+.drink-intro p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+.drink-see-all {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: #{{ site.color.primary }};
+    color: #fff !important;
+    border-radius: 24px;
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+.drink-see-all:hover,
+.drink-see-all:focus {
+    background-color: #{{ site.color.secondary }};
+    color: #fff !important;
+    text-decoration: none;
+}
+/* Visually mute an option whose count would drop to 0 if checked — keeps
+   it clickable (to remove the conflict) but signals "no results that way". */
+.drink-filter-option--empty {
+    opacity: 0.4;
+}
+
+/* ---------- ACDB: result list ---------- */
+.drink-loading,
+.drink-empty,
+.drink-error {
+    text-align: center;
+    color: #888;
+    padding: 28px 0;
+}
+.drink-error { color: #c0392b; }
+
+.drink-count {
+    text-align: left;
+    color: #888;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 12px 0 6px;
+}
+
+.drink-card {
+    text-align: left;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 10px 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    /* relative anchor for the bottom-right report-flag (absolute positioned
+       so it doesn't add its own row of empty card height). */
+    position: relative;
+}
+.drink-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;  /* name to the left, ACATS cat to the right */
+    gap: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+}
+.drink-name {
+    margin: 0;
+    font-size: 18px;
+    color: #{{ site.color.primary }};
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+/* ACATS-approved drinks: the banner cat silhouette pinned to the far left
+   of the card header, recolored to the site's primary green via CSS mask.
+   The PNG is light grey on transparent; the mask uses the alpha channel,
+   and `background-color` paints the visible silhouette. */
+.acats-cat {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    background-color: #{{ site.color.primary }};
+    -webkit-mask: url('{{ site.baseurl }}/img/misc/cat_light_gray.png') center / contain no-repeat;
+    mask:         url('{{ site.baseurl }}/img/misc/cat_light_gray.png') center / contain no-repeat;
+    transform: scaleX(-1);    /* mirror to face the opposite direction from the banner cat */
+}
+.drink-tier {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    vertical-align: middle;
+    margin-left: 4px;
+    white-space: nowrap;
+}
+.tier-3 {
+    background: #e9f5ee;
+    color: #{{ site.color.primary }};
+}
+.tier-2 {
+    background: #f0f0f0;
+    color: #777;
+}
+/* Long-tail tier — lighter/quieter than Familiar so it sits as the
+   "background" of the catalog without competing with the Classics. */
+.tier-1 {
+    background: #fafafa;
+    color: #999;
+    border: 1px solid #eee;
+}
+
+/* Bottom-right slot for the report-issue flag. Absolutely positioned so
+   it floats over the card's corner instead of pushing card height with
+   its own empty row. The card itself sets position: relative as anchor. */
+.drink-card-footer {
+    position: absolute;
+    right: 8px;
+    bottom: 6px;
+    line-height: 1;
+}
+
+/* Report-issue flag button. Intentionally small + muted so it doesn't read
+   as a primary action or favorite/bookmark — it's a secondary affordance
+   that surfaces a "this recipe looks wrong" path back to the maintainers. */
+.drink-report-btn {
+    background: transparent;
+    border: none;
+    padding: 4px 6px;
+    margin: 0;
+    line-height: 1;
+    color: #b5b5b5;        /* muted gray — clearly secondary */
+    cursor: pointer;
+    font-size: 13px;
+    border-radius: 4px;
+    transition: color 0.15s ease, background 0.15s ease;
+}
+.drink-report-btn:hover,
+.drink-report-btn:focus-visible {
+    /* Warm amber on hover, not red — signals "report" without alarm. */
+    color: #c87a16;
+    background: #faf3e8;
+    outline: none;
+}
+.drink-report-btn .fa-flag {
+    pointer-events: none;
+}
+
+/* ─── Report-issue dialog ─────────────────────────────────────────────
+   Native <dialog>. Uses ::backdrop for the overlay and small-modal sizing.
+   Kept stylistically neutral so it can live on any page that imports it. */
+.drink-report-dialog {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 22px 24px;
+    width: min(440px, 92vw);
+    max-width: 92vw;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+    background: #fff;
+    color: #333;
+}
+.drink-report-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.35);
+}
+.drink-report-dialog h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    color: #{{ site.color.primary }};
+}
+.drink-report-dialog .drink-report-subtitle {
+    margin: 0 0 14px;
+    color: #777;
+    font-size: 13px;
+}
+.drink-report-dialog label {
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #444;
+}
+.drink-report-dialog textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 90px;
+}
+.drink-report-dialog textarea.invalid {
+    border-color: #c54141;
+}
+.drink-report-dialog .drink-report-status {
+    margin: 8px 0 0;
+    min-height: 1.2em;     /* reserve space so the form doesn't jump */
+    font-size: 12px;
+    color: #777;
+}
+.drink-report-dialog .drink-report-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 14px;
+}
+.drink-report-dialog button {
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #555;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+}
+.drink-report-dialog .drink-report-submit {
+    background: #{{ site.color.primary }};
+    border-color: #{{ site.color.primary }};
+    color: #fff;
+}
+.drink-report-dialog .drink-report-submit:hover {
+    opacity: 0.9;
+}
+.drink-meta {
+    color: #888;
+    font-size: 12px;
+    text-transform: capitalize;
+    margin-bottom: 8px;
+}
+.drink-ingredients {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 8px;
+}
+.drink-ingredients li {
+    padding: 2px 0;
+    font-size: 14px;
+    color: #333;
+}
+.drink-ingredients .ing-amount {
+    color: #888;
+    display: inline-block;
+    min-width: 78px;
+}
+.drink-ingredients .ing-name {
+    font-weight: 600;
+}
+.drink-ingredients .ing-note {
+    color: #aaa;
+    font-size: 12px;
+    margin-left: 4px;
+}
+.drink-instructions {
+    color: #555;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 8px 0;
+}
+.drink-garnish {
+    color: #777;
+    font-size: 12px;
+    margin: 4px 0 0;
+}
+.drink-flavors {
+    margin-top: 8px;
+}
+.flavor-tag {
+    display: inline-block;
+    background: #f4f4f4;
+    color: #555;
+    font-size: 11px;
+    padding: 2px 8px;
+    margin-right: 4px;
+    border-radius: 10px;
+    text-transform: capitalize;
+}
