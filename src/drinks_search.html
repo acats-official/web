@@ -1,0 +1,112 @@
+<section id="drinks_search" class="bg-light-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">Aristocats Cocktail Database</h2>
+                <hr>
+                <h3 class="section-subheading">Search our cocktail database.</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <input id="drink-search-input" type="search" class="form-control" placeholder="Search by drink, ingredient, flavor…">
+                <div id="drink-filters"></div>
+                <div id="drink-search-results"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report-issue dialog. Native <dialog> handles Escape-to-close and
+         focus management for free. The drink_id / drink_name are stamped
+         onto data-* attributes when the user clicks a card's flag button. -->
+    <dialog id="drink-report-dialog" class="drink-report-dialog">
+        <form method="dialog">
+            <h3>Report an issue</h3>
+            <p class="drink-report-subtitle">
+                For <strong class="drink-report-drink-name"></strong>
+            </p>
+            <label for="drink-report-text">What looks wrong?</label>
+            <textarea id="drink-report-text" rows="4"
+                placeholder="e.g. the gin amount looks too high, or the garnish is wrong, or the instructions are missing a step"
+                required></textarea>
+            <p class="drink-report-status" role="status" aria-live="polite"></p>
+            <div class="drink-report-buttons">
+                <button type="button" class="drink-report-cancel">Cancel</button>
+                <button type="submit" class="drink-report-submit">Send feedback</button>
+            </div>
+        </form>
+    </dialog>
+</section>
+
+<script>
+(function () {
+    var KEY = 'acats:view';
+    function apply(view) {
+        if (view === 'drinks') {
+            document.body.classList.add('drinks-view');
+        } else {
+            document.body.classList.remove('drinks-view');
+        }
+        var label = document.getElementById('view-toggle-label');
+        if (label) label.textContent = (view === 'drinks') ? 'Home' : 'Aristocats Cocktail Database (ACDB)';
+        var icon = document.getElementById('view-toggle-icon');
+        if (icon) {
+            icon.classList.remove('fa-martini-glass-citrus', 'fa-house');
+            icon.classList.add((view === 'drinks') ? 'fa-house' : 'fa-martini-glass-citrus');
+        }
+    }
+    function emitEnter(source) {
+        // PostHog `navigation` event matching the pattern used elsewhere on
+        // the site (see src/layouts/default.html, latest_news.html, etc.).
+        // `source` distinguishes click-through entries from persisted-state
+        // restores so we can tell first-time discovery from return visits.
+        // Per-filter / per-search events are intentionally NOT emitted —
+        // that would be far too noisy.
+        if (typeof window.emit === 'function') {
+            try { window.emit('navigation', { type: 'acdb_enter', source: source }); }
+            catch (e) {}
+        }
+    }
+
+    window.toggleView = function () {
+        var next = document.body.classList.contains('drinks-view') ? 'site' : 'drinks';
+        try { localStorage.setItem(KEY, next); } catch (e) {}
+        apply(next);
+        if (next === 'drinks') {
+            emitEnter('toggle');
+            // Confetti only on the click path INTO drinks view — not when
+            // leaving, and not on the initial restore below.
+            if (typeof window.confetti_party === 'function') {
+                window.confetti_party(3);
+            }
+        }
+    };
+
+
+    // Three entry paths into the ACDB view, in priority order:
+    //   1. `link`      — URL has ?q=, ?base=, or ?flavor= (shared filtered link).
+    //                    Forces drinks view regardless of localStorage so the
+    //                    recipient actually sees what the sender filtered.
+    //   2. `returning` — no URL params, localStorage says the user was last in
+    //                    drinks view. Reload / return visit.
+    //   3. (no emit)   — fresh visit to the regular site. No event fired.
+    function hasUrlFilterParams() {
+        if (typeof URLSearchParams === 'undefined') return false;
+        var p = new URLSearchParams(window.location.search);
+        return p.has('q') || p.has('base') || p.has('flavor');
+    }
+
+    var initialView = 'site';
+    var initialSource = null;
+    if (hasUrlFilterParams()) {
+        initialView = 'drinks';
+        initialSource = 'link';
+    } else {
+        try { initialView = localStorage.getItem(KEY) === 'drinks' ? 'drinks' : 'site'; }
+        catch (e) {}
+        if (initialView === 'drinks') initialSource = 'returning';
+    }
+    apply(initialView);
+    if (initialSource) emitEnter(initialSource);
+})();
+</script>
