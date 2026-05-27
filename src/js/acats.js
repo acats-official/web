@@ -30,6 +30,7 @@ var aristostates = ["beaver", "cat"];
 function metamorph() {
     if (window.matchMedia("(min-width: 1050px)").matches) {
         spawn_bottles()
+        topple_bottles()
     }
     if (clicks == 0) emit("easter_egg", {'type':'metamorph'})
 
