@@ -76,10 +76,14 @@
         apply(next);
         if (next === 'drinks') {
             emitEnter('toggle');
-            // Confetti only on the click path INTO drinks view — not when
-            // leaving, and not on the initial restore below.
+            // Confetti + a "cheers!" bottle topple, only on the click path
+            // INTO drinks view — not when leaving, and not on the initial
+            // restore below.
             if (typeof window.confetti_party === 'function') {
                 window.confetti_party(3);
+            }
+            if (typeof window.topple_bottles === 'function') {
+                window.topple_bottles();
             }
         }
     };

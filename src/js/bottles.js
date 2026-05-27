@@ -12,6 +12,23 @@ var isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
 // For some reason, Firefox scales the bottles incorrectly, thus the arbitrary values
 var scaleValue = isFirefox ? 0.175 : 1.2;
 
+// Knock every loose bottle over — a little "cheers!" scatter. Pops each
+// body up slightly, shoves it sideways, and spins it so it tumbles and
+// settles on its side. Static bodies (the walls) are skipped.
+function topple_bottles() {
+  if (!world || !Composite || !Matter) return;
+  var bodies = Composite.allBodies(world);
+  for (var i = 0; i < bodies.length; i++) {
+    var b = bodies[i];
+    if (b.isStatic) continue;
+    Matter.Body.setAngularVelocity(b, (Math.random() - 0.5) * 0.5);
+    Matter.Body.setVelocity(b, {
+      x: (Math.random() - 0.5) * 5,
+      y: -2 - Math.random() * 3,
+    });
+  }
+}
+
 function spawn_bottles() {
   var rnd_off = Math.floor(Math.random() * width);
   var imageBody = Bodies.rectangle(
