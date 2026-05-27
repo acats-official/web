@@ -49,7 +49,7 @@ function setup_bottles(amount) {
 
   var engine = Engine.create();
   world = engine.world;
-  world.gravity.y = 2;
+  world.gravity.y = 1;
 
   var render = Render.create({
     element: canvas_div,
