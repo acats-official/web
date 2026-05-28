@@ -788,6 +788,46 @@ body {
 }
 #acdb-bar #view-toggle-icon {
     margin-left: 8px;
+    display: inline-block;       /* transforms only apply reliably to non-inline */
+}
+
+/* Attention pulse on the ACDB bar to signal that it's clickable. Two
+   synchronized animations:
+     - acdb-pulse-color → fires on the whole bar so text + icon both
+       shift to the primary green at the peak (color cascades).
+     - acdb-pulse-scale → fires only on the martini icon so just the
+       icon grows; the surrounding text stays put.
+   Both share the same timing (2.2s) so they peak together.
+   Only runs when:
+     - body is NOT in drinks-view (no pulse needed once user has entered)
+     - body is NOT .acdb-visited (returning users don't need re-inviting;
+       set by JS in drinks_search.html from a localStorage flag)
+     - the bar is NOT being hovered (hover handles its own color shift)
+     - the user hasn't set prefers-reduced-motion. */
+@keyframes acdb-pulse-color {
+    0%, 60%, 100% { color: #{{ site.color.secondary }}; }
+    80%           { color: #{{ site.color.primary }}; }
+}
+@keyframes acdb-pulse-scale {
+    0%, 60%, 100% { transform: scale(1); }
+    80%           { transform: scale(1.55); }
+}
+body:not(.drinks-view):not(.acdb-visited) #acdb-bar {
+    animation: acdb-pulse-color 2.2s ease-in-out infinite;
+}
+body:not(.drinks-view):not(.acdb-visited) #acdb-bar .fa-martini-glass-citrus {
+    animation: acdb-pulse-scale 2.2s ease-in-out infinite;
+    transform-origin: center;
+}
+#acdb-bar:hover,
+#acdb-bar:hover .fa-martini-glass-citrus {
+    animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+    #acdb-bar,
+    #acdb-bar .fa-martini-glass-citrus {
+        animation: none;
+    }
 }
 
 /* Make room for the fixed bar at the top of the viewport. */
