@@ -41,9 +41,25 @@
 <script>
 (function () {
     var KEY = 'acats:view';
+    var VISITED_KEY = 'acats:acdb-visited';
+
+    // First-time-pulse logic: once the user has entered ACDB by any path,
+    // flip a localStorage flag and add a body class. The CSS then disables
+    // the attention pulse on the martini icon for all subsequent loads.
+    function markVisited() {
+        try { localStorage.setItem(VISITED_KEY, '1'); } catch (e) {}
+        document.body.classList.add('acdb-visited');
+    }
+    try {
+        if (localStorage.getItem(VISITED_KEY) === '1') {
+            document.body.classList.add('acdb-visited');
+        }
+    } catch (e) {}
+
     function apply(view) {
         if (view === 'drinks') {
             document.body.classList.add('drinks-view');
+            markVisited();
         } else {
             document.body.classList.remove('drinks-view');
         }
