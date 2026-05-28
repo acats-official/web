@@ -785,10 +785,16 @@ body {
 #acdb-bar:hover {
     color: #{{ site.color.primary }};
     background-color: #fff;
+    font-weight: 900;            /* heavier than the resting 700 */
 }
 #acdb-bar #view-toggle-icon {
     margin-left: 8px;
     display: inline-block;       /* transforms only apply reliably to non-inline */
+    transition: transform 0.2s ease-out;  /* smooth grow on hover */
+}
+/* Hover grows the icon (martini or house) for an extra affordance cue. */
+#acdb-bar:hover #view-toggle-icon {
+    transform: scale(1.55);
 }
 
 /* Attention pulse on the ACDB bar to signal that it's clickable. Two
@@ -819,8 +825,12 @@ body:not(.drinks-view):not(.acdb-visited) #acdb-bar .fa-martini-glass-citrus {
     animation: acdb-pulse-scale 2.2s ease-in-out infinite;
     transform-origin: center;
 }
-#acdb-bar:hover,
-#acdb-bar:hover .fa-martini-glass-citrus {
+/* Hover-cancel needs to match the pulse rules' specificity (body prefixes
+   bump those above #acdb-bar:hover alone). Without these prefixes the
+   keyframe color overrides the hover color and the bar stays in
+   "animating" mode visually while hovered. */
+body:not(.drinks-view):not(.acdb-visited) #acdb-bar:hover,
+body:not(.drinks-view):not(.acdb-visited) #acdb-bar:hover .fa-martini-glass-citrus {
     animation: none;
 }
 @media (prefers-reduced-motion: reduce) {
