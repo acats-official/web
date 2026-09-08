@@ -27,7 +27,51 @@
 		<header class="masthead" style="padding: 20px">
 			<div class="container">
 				<h1 class="section-heading text-uppercase">‼️ ARISTOCATS 40 ÅR 🐱‼️</h1>
-				<h2 class="section-heading text-uppercase"></h2>
+				<p class="masthead-subheading">
+					Informationen här uppdateras löpande, så håll utkik! 👀
+				</p>
+
+				<h2 class="section-heading text-uppercase">Fredag 25 september 2026</h2>
+				<p class="masthead-subheading">
+					Inget spikat än, men vi kanske stämmer träff på en pub redan då för lite förfest? Återkommer! 🍻
+				</p>
+
+				<h2 class="section-heading text-uppercase">Lördag 26 september 2026</h2>
+				<div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative">
+					<table class="table table-dark sm-0 mb-0 lg-0" style="padding-left:10px;">
+						<thead>
+							<tr><th>Tid</th><th>Aktivitet</th><th>Plats</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>13:00</td><td>Lunch & Meetup</td><td>TBD</td></tr>
+							<tr><td>15:00</td><td>Gintasting</td><td>Copper Club, Heliosgården 18, Hammarby Sjöstad</td></tr>
+							<tr><td>16:30</td><td>Pubrunda</td><td>-</td></tr>
+							<tr><td>20:30</td><td>Middag</td><td>Himlen, Götgatan 78 (Skrapan), Södermalm</td></tr>
+							<tr><td>~23:30</td><td>Fest</td><td>-</td></tr>
+						</tbody>
+					</table>
+				</div>
+				<br>
+
+				<h2 class="section-heading text-uppercase">Pris</h2>
+				<div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative">
+					<table class="table table-dark sm-0 mb-0 lg-0" style="padding-left:10px;">
+						<thead>
+							<tr><th>Kategori</th><th>Pris</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>Student</td><td>~650 kr</td></tr>
+							<tr><td>Nyexad (arbetat &lt; 1 år)</td><td>~1025 kr</td></tr>
+							<tr><td>Knegare (arbetat &gt; 1 år)</td><td>~1825 kr</td></tr>
+						</tbody>
+					</table>
+				</div>
+				<p style="font-size: 0.8rem; opacity: 0.8; margin-top: 8px;">
+					Preliminära priser, kan komma att ändras
+				</p>
+				<br>
+
+				<h2 class="section-heading text-uppercase" id="attendee-count"></h2>
 				<br>
 				<div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative">
 					<table class="table table-dark sm-0 mb-0 lg-0" style="padding-left:10px;" id="csv-table">
@@ -57,7 +101,7 @@
 					tbody.appendChild(tr);
 				});
 
-				document.querySelector('h2').innerText = `Anmälda: ${rows.length} st`;
+				document.getElementById('attendee-count').innerText = `Anmälda: ${rows.length} st`;
 			}
 
 			document.addEventListener('DOMContentLoaded', loadCSVtoTable);
