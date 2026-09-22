@@ -1,111 +1,538 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Aristocats 40 år</title>
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
-        <link href="css/styles.css" rel="stylesheet" />
-        <link href="css/custom.css" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800&display=swap" rel="stylesheet" type="text/css" />
         <script src="js/acats.js"></script>
+        <script>
+            !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+            posthog.init('phc_OFtyQTrftRQMa5SFuCnCxgJ4GjR8co1xhbsI0ZWCCJA',{api_host:'https://eu.posthog.com', capture_pageview:false, capture_pageleave:false, autocapture:false, person_profiles: 'always'})
+            emit("navigation", {'type':'anniversary_40'})
+            load_no = 0
+        </script>
+        <style>
+            :root {
+                --bg: #16171a;
+                --card: #1f2125;
+                --border: #2d3036;
+                --text: #ebecee;
+                --muted: #a3a8b0;
+                --accent: #41af6d;
+                --accent-soft: rgba(65, 175, 109, 0.14);
+            }
+
+            * { box-sizing: border-box; }
+
+            @media (prefers-reduced-motion: no-preference) {
+                html { scroll-behavior: smooth; }
+            }
+
+            body {
+                margin: 0;
+                background: var(--bg);
+                color: var(--text);
+                font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                -webkit-text-size-adjust: 100%;
+            }
+
+            h1, h2, h3, .eyebrow, .dates, .jump a, .tag, .time, .label, .amount {
+                font-family: Montserrat, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            }
+
+            p { margin: 0 0 12px; }
+            p:last-child { margin-bottom: 0; }
+
+            .page {
+                max-width: 680px;
+                margin: 0 auto;
+                padding: 32px 16px 64px;
+            }
+
+            .hero {
+                text-align: center;
+                padding: 16px 0 24px;
+            }
+            .eyebrow {
+                margin: 0 0 8px;
+                color: var(--accent);
+                font-size: 0.8rem;
+                font-weight: 700;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+            }
+            h1 {
+                margin: 0;
+                font-size: clamp(1.9rem, 7vw, 2.6rem);
+                font-weight: 800;
+                line-height: 1.15;
+                text-transform: uppercase;
+            }
+            .dates {
+                margin: 10px 0 0;
+                font-size: 1.05rem;
+                font-weight: 700;
+            }
+            .lead {
+                margin: 8px 0 0;
+                color: var(--muted);
+            }
+            .jump {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+                margin-top: 20px;
+            }
+            .jump a {
+                padding: 6px 14px;
+                border: 1px solid var(--border);
+                border-radius: 999px;
+                color: var(--text);
+                font-size: 0.85rem;
+                font-weight: 600;
+                text-decoration: none;
+            }
+            .jump a:hover,
+            .jump a:focus-visible {
+                border-color: var(--accent);
+                color: var(--accent);
+            }
+
+            .card {
+                margin-top: 16px;
+                padding: 20px;
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                scroll-margin-top: 16px;
+            }
+            h2 {
+                margin: 0 0 16px;
+                font-size: 1.2rem;
+                font-weight: 800;
+                letter-spacing: 0.04em;
+                text-transform: uppercase;
+            }
+            h3 {
+                margin: 0 0 8px;
+                font-size: 1rem;
+                font-weight: 700;
+            }
+
+            .day + .day {
+                margin-top: 20px;
+                padding-top: 20px;
+                border-top: 1px solid var(--border);
+            }
+            .tag {
+                display: inline-block;
+                margin-left: 6px;
+                padding: 2px 8px;
+                border-radius: 999px;
+                background: var(--accent-soft);
+                color: var(--accent);
+                font-size: 0.7rem;
+                font-weight: 700;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                vertical-align: 2px;
+            }
+
+            .timeline {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+            .timeline li {
+                display: grid;
+                grid-template-columns: 7rem 1fr;
+                gap: 12px;
+                padding: 12px 0;
+                border-top: 1px solid var(--border);
+            }
+            .timeline li:first-child {
+                padding-top: 4px;
+                border-top: 0;
+            }
+            .time {
+                color: var(--accent);
+                font-weight: 700;
+                font-variant-numeric: tabular-nums;
+                white-space: nowrap;
+            }
+            .what { display: block; font-weight: 600; }
+            .where { display: block; color: var(--muted); }
+            .extra { display: block; color: var(--muted); font-size: 0.875rem; }
+
+            .prices {
+                display: grid;
+                gap: 10px;
+                margin: 0 0 20px;
+                padding: 0;
+                list-style: none;
+            }
+            .prices li {
+                display: grid;
+                grid-template-columns: 1fr auto;
+                gap: 2px 12px;
+                padding: 12px 14px;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+            }
+            .label { font-weight: 700; }
+            .amount {
+                color: var(--accent);
+                font-weight: 800;
+                text-align: right;
+                white-space: nowrap;
+            }
+            .when {
+                grid-column: 1 / -1;
+                color: var(--muted);
+                font-size: 0.875rem;
+            }
+
+            .prices li.student { border-color: rgba(65, 175, 109, 0.4); }
+            .drop {
+                grid-column: 1 / -1;
+                margin-top: 10px;
+            }
+            .was {
+                margin-right: 6px;
+                color: var(--muted);
+                font-weight: 600;
+                text-decoration-color: #e0565b;
+                text-decoration-thickness: 2px;
+            }
+            .meter {
+                height: 12px;
+                overflow: hidden;
+                border-radius: 999px;
+                background: repeating-linear-gradient(-45deg, rgba(224, 86, 91, 0.45) 0 6px, rgba(224, 86, 91, 0.18) 6px 12px);
+            }
+            .meter-fill {
+                width: 100%;
+                height: 100%;
+                border-radius: 999px;
+                background: var(--accent);
+                transition: width 1.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            }
+            .meter-legend {
+                display: flex;
+                justify-content: space-between;
+                gap: 12px;
+                margin-top: 6px;
+                color: var(--muted);
+                font-size: 0.8rem;
+                font-variant-numeric: tabular-nums;
+            }
+            .drop-note {
+                margin: 10px 0 0;
+                color: var(--muted);
+                font-size: 0.875rem;
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .meter-fill { transition: none; }
+            }
+
+            .split {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+                margin-bottom: 16px;
+            }
+            .list {
+                margin: 0;
+                padding-left: 1.2em;
+            }
+            .list li + li { margin-top: 4px; }
+            .note { color: var(--muted); }
+
+            .callout {
+                padding: 14px 16px;
+                background: var(--accent-soft);
+                border: 1px solid rgba(65, 175, 109, 0.35);
+                border-radius: 10px;
+            }
+            .callout dl {
+                display: grid;
+                grid-template-columns: auto 1fr;
+                gap: 4px 12px;
+                margin: 0 0 10px;
+            }
+            .callout dt { color: var(--muted); }
+            .callout dd { margin: 0; font-weight: 600; }
+
+            .count { color: var(--accent); }
+            .attendees {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                columns: 2 220px;
+                column-gap: 24px;
+            }
+            .attendees li {
+                padding: 6px 0;
+                border-bottom: 1px solid var(--border);
+                break-inside: avoid;
+            }
+            .name { display: block; font-weight: 600; }
+            .nick { display: block; color: var(--muted); font-size: 0.875rem; }
+
+            @media (max-width: 480px) {
+                .split { grid-template-columns: 1fr; }
+            }
+            @media (max-width: 360px) {
+                .timeline li { grid-template-columns: 1fr; gap: 2px; }
+            }
+        </style>
     </head>
-    <script>
-        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-        posthog.init('phc_OFtyQTrftRQMa5SFuCnCxgJ4GjR8co1xhbsI0ZWCCJA',{api_host:'https://eu.posthog.com', capture_pageview:false, capture_pageleave:false, autocapture:false, person_profiles: 'always'})
-        emit("navigation", {'type':'anniversary_40'})
-        load_no = 0
-    </script>
-	<body id="page-top">
-		<header class="masthead" style="padding: 20px">
-			<div class="container">
-				<h1 class="section-heading text-uppercase">‼️ ARISTOCATS 40 ÅR 🐱‼️</h1>
-				<p class="masthead-subheading">
-					Informationen här uppdateras löpande, så håll utkik! 👀
-				</p>
+    <body>
+        <main class="page">
+            <header class="hero">
+                <p class="eyebrow">1986–2026 · Stockholm</p>
+                <h1>‼️ Aristocats 40 år 🐱‼️</h1>
+                <p class="dates">25–26 september 2026</p>
+                <p class="lead">Informationen här uppdateras löpande, så håll utkik! 👀</p>
+                <nav class="jump" aria-label="Innehåll">
+                    <a href="#schema">Schema</a>
+                    <a href="#kladsel">Klädsel</a>
+                    <a href="#pris">Pris</a>
+                    <a href="#ovrigt">Övrigt</a>
+                    <a href="#anmalda">Anmälda</a>
+                </nav>
+            </header>
 
-				<h2 class="section-heading text-uppercase">Fredag 25 september 2026</h2>
-				<p class="masthead-subheading">
-					Inget spikat än, men vi kanske stämmer träff på en pub redan då för lite förfest? Återkommer! 🍻
-				</p>
+            <section id="schema" class="card">
+                <h2>Schema</h2>
 
-				<h2 class="section-heading text-uppercase">Lördag 26 september 2026</h2>
-				<div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative">
-					<table class="table table-dark sm-0 mb-0 lg-0" style="padding-left:10px;">
-						<thead>
-							<tr><th>Tid</th><th>Aktivitet</th><th>Plats</th></tr>
-						</thead>
-						<tbody>
-							<tr><td>13:00</td><td>Lunch & Meetup</td><td>TBD</td></tr>
-							<tr><td>15:00</td><td>Gintasting</td><td>Copper Club, Heliosgården 18, Hammarby Sjöstad</td></tr>
-							<tr><td>16:30</td><td>Pubrunda</td><td>-</td></tr>
-							<tr><td>20:30</td><td>Middag</td><td>Himlen, Götgatan 78 (Skrapan), Södermalm</td></tr>
-							<tr><td>~23:30</td><td>Fest</td><td>-</td></tr>
-						</tbody>
-					</table>
-				</div>
-				<br>
+                <div class="day">
+                    <h3>Fredag 25 september <span class="tag">Frivilligt</span></h3>
+                    <p>Häng med på en bar för dig som redan är i stan. Plats meddelas senare i gruppchatten.</p>
+                </div>
 
-				<h2 class="section-heading text-uppercase">Pris</h2>
-				<div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative">
-					<table class="table table-dark sm-0 mb-0 lg-0" style="padding-left:10px;">
-						<thead>
-							<tr><th>Kategori</th><th>Pris</th></tr>
-						</thead>
-						<tbody>
-							<tr><td>Student</td><td>~650 kr</td></tr>
-							<tr><td>Nyexad (arbetat &lt; 1 år)</td><td>~1025 kr</td></tr>
-							<tr><td>Knegare (arbetat &gt; 1 år)</td><td>~1825 kr</td></tr>
-						</tbody>
-					</table>
-				</div>
-				<p style="font-size: 0.8rem; opacity: 0.8; margin-top: 8px;">
-					Preliminära priser, kan komma att ändras
-				</p>
-				<br>
+                <div class="day">
+                    <h3>Lördag 26 september</h3>
+                    <ol class="timeline">
+                        <li>
+                            <span class="time">09:30</span>
+                            <div><span class="what">Löprunda</span><span class="where">Fridhemsplan</span></div>
+                        </li>
+                        <li>
+                            <span class="time">13:00</span>
+                            <div><span class="what">Lunch</span><span class="where">Taco Bar, Hammarby Kaj 8A (Hammarby Sjöstad)</span></div>
+                        </li>
+                        <li>
+                            <span class="time">15:00</span>
+                            <div><span class="what">Ginprovning</span><span class="where">Copper Club, Hammarby Sjöstad</span></div>
+                        </li>
+                        <li>
+                            <span class="time">17:00</span>
+                            <div><span class="what">Pubrunda</span><span class="where">Södermalm</span></div>
+                        </li>
+                        <li>
+                            <span class="time">20:30</span>
+                            <div><span class="what">Jubileumsmiddag</span><span class="where">Himlen, Södermalm</span></div>
+                        </li>
+                        <li>
+                            <span class="time">ca 23:30</span>
+                            <div><span class="what">Fest</span></div>
+                        </li>
+                    </ol>
+                </div>
+            </section>
 
-				<h2 class="section-heading text-uppercase" id="attendee-count"></h2>
-				<br>
-				<div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative">
-					<table class="table table-dark sm-0 mb-0 lg-0" style="padding-left:10px;" id="csv-table">
-						<tbody>
-							<!-- CSV contents will go here -->
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</header>
+            <section id="kladsel" class="card">
+                <h2>Klädsel</h2>
+                <p>På lunchen delar vi ut vår exklusiva, svarta jubileumströja, som vi sedan bär resten av dagen.</p>
+                <p>Till middagen på Himlen klär vi upp den med något ovanpå: en kavaj, blazer, snygg kofta, skjorta eller något annat som passar en riktig aristokatt.</p>
+            </section>
 
-		<script>
-			async function loadCSVtoTable() {
-				const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSNymrKuKxgs64y0A4nnEfgvmAHfttqJQu6T71cdVB8YLS8b3ZuULeeWqYfC3_Z3bRJqe4rAixmOyk2/pub?gid=210171186&single=true&output=csv');
-				const csvText = await response.text();
-				const rows = csvText.trim().split('\n')
-					// trim each field, not just the row ends — values like "Calle Isakson ," have spaces before the comma
-					.map(row => row.split(',').map(field => field.trim()).join(', '))
-					.filter(row => row !== '');
+            <section id="pris" class="card">
+                <h2>Pris för hela dagen</h2>
+                <ul class="prices">
+                    <li>
+                        <span class="label">Knegare</span>
+                        <span class="amount">1 800 kr</span>
+                        <span class="when">Betalas senast 25/9</span>
+                    </li>
+                    <li>
+                        <span class="label">Nyexad</span>
+                        <span class="amount">1 000 kr</span>
+                        <span class="when">Betalas senast 25/9</span>
+                    </li>
+                    <li class="student" id="student-card">
+                        <span class="label">Student</span>
+                        <span class="amount"><s class="was" id="student-was" hidden>630 kr</s><span id="student-price">630 kr</span></span>
+                        <span class="when">Preliminärt pris, betalas efter evenemanget. Slutpriset sätts efter helgen.</span>
+                        <div class="drop">
+                            <div class="meter" aria-hidden="true"><div class="meter-fill" id="student-meter"></div></div>
+                            <div class="meter-legend">
+                                <span>Sänkt hittills: <strong id="student-saved">0 kr</strong></span>
+                                <span>Startpris <span id="student-start">630 kr</span></span>
+                            </div>
+                            <p class="drop-note" id="student-note">Inga studentbidrag än. Knegare: bli först att trycka ner priset! 🐾</p>
+                        </div>
+                    </li>
+                </ul>
 
-				const tbody = document.querySelector('#csv-table tbody');
-				rows.forEach(row => {
-					const tr = document.createElement('tr');
-					const td = document.createElement('td');
-					td.textContent = row;
-					tr.appendChild(td);
-					tbody.appendChild(tr);
-				});
+                <div class="split">
+                    <div>
+                        <h3>Ingår</h3>
+                        <ul class="list">
+                            <li>Lunch</li>
+                            <li>Ginprovning</li>
+                            <li>Middag</li>
+                            <li>Jubileumströja</li>
+                            <li>Annat gott</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Ingår inte</h3>
+                        <ul class="list">
+                            <li>Dryck på middagen och barerna</li>
+                        </ul>
+                    </div>
+                </div>
 
-				document.getElementById('attendee-count').innerText = `Anmälda: ${rows.length} st`;
-			}
+                <p class="note">Är du bara med på delar av dagen hör vi av oss separat om ditt pris.</p>
 
-			document.addEventListener('DOMContentLoaded', loadCSVtoTable);
-		</script>
-	</body>
+                <div class="callout">
+                    <h3>Betalning</h3>
+                    <dl>
+                        <dt>Swish till</dt><dd>0708822634</dd>
+                        <dt>Märk med</dt><dd>Ditt namn</dd>
+                    </dl>
+                    <p>Frivilligt studentbidrag från knegare: samma Swishnummer, märkt ”Studentbidrag + ditt namn”.</p>
+                </div>
+            </section>
 
+            <section id="ovrigt" class="card">
+                <h2>Övrigt</h2>
+                <ul class="list">
+                    <li>Allergier och specialkost från anmälan är vidarebefordrade till restaurangerna.</li>
+                    <li>Kontakt: Goken d.y. (Max Mogren)</li>
+                </ul>
+            </section>
+
+            <section id="anmalda" class="card">
+                <h2>Anmälda <span id="attendee-count" class="count"></span></h2>
+                <ul id="attendee-list" class="attendees"></ul>
+            </section>
+        </main>
+
+        <script>
+            async function loadAttendees() {
+                const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSNymrKuKxgs64y0A4nnEfgvmAHfttqJQu6T71cdVB8YLS8b3ZuULeeWqYfC3_Z3bRJqe4rAixmOyk2/pub?gid=210171186&single=true&output=csv');
+                const csvText = await response.text();
+                const rows = csvText.trim().split('\n')
+                    // trim each field, not just the row ends — values like "Calle Isakson ," have spaces before the comma
+                    .map(row => row.split(',').map(field => field.trim()))
+                    .filter(fields => fields.some(field => field !== ''));
+
+                const list = document.getElementById('attendee-list');
+                rows.forEach(([name, ...rest]) => {
+                    const li = document.createElement('li');
+
+                    const nameEl = document.createElement('span');
+                    nameEl.className = 'name';
+                    nameEl.textContent = name;
+                    li.appendChild(nameEl);
+
+                    const nickname = rest.join(', ').replace(/^"|"$/g, '');
+                    if (nickname && nickname !== '-') {
+                        const nickEl = document.createElement('span');
+                        nickEl.className = 'nick';
+                        nickEl.textContent = nickname;
+                        li.appendChild(nickEl);
+                    }
+
+                    list.appendChild(li);
+                });
+
+                document.getElementById('attendee-count').textContent = `${rows.length} st`;
+            }
+
+            const STUDENT_START_PRICE = 630;
+            const STUDENT_COUNT = 8;
+            const STUDENTBIDRAG_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSNymrKuKxgs64y0A4nnEfgvmAHfttqJQu6T71cdVB8YLS8b3ZuULeeWqYfC3_Z3bRJqe4rAixmOyk2/pub?gid=370612506&single=true&output=csv';
+
+            // Each sheet row is one knegare's amount above 1 800 kr, split evenly across the students.
+            async function loadStudentPrice() {
+                const response = await fetch(STUDENTBIDRAG_CSV);
+                const csvText = await response.text();
+                const total = csvText.trim().split('\n')
+                    .map(line => parseFloat(line.replace(/[^\d,.-]/g, '').replace(',', '.')))
+                    .filter(amount => !Number.isNaN(amount))
+                    .reduce((sum, amount) => sum + amount, 0);
+                return Math.max(0, Math.round(STUDENT_START_PRICE - total / STUDENT_COUNT));
+            }
+
+            const formatKr = amount => `${amount.toLocaleString('sv-SE')} kr`;
+            const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            function renderStudentPrice(current) {
+                const start = STUDENT_START_PRICE;
+                const reduced = start - current;
+
+                const was = document.getElementById('student-was');
+                was.textContent = formatKr(start);
+                was.hidden = reduced === 0;
+
+                document.getElementById('student-start').textContent = formatKr(start);
+                document.getElementById('student-saved').textContent = formatKr(reduced);
+                document.getElementById('student-note').textContent = reduced > 0
+                    ? `Knegarnas studentbidrag har redan tryckt ner priset med ${formatKr(reduced)}. Fortsätt swisha! 🐾`
+                    : 'Inga studentbidrag än. Knegare: bli först att trycka ner priset! 🐾';
+
+                const amount = document.getElementById('student-price');
+                const fill = document.getElementById('student-meter');
+                const targetWidth = `${(current / start) * 100}%`;
+
+                if (reduced === 0 || prefersReducedMotion()) {
+                    amount.textContent = formatKr(current);
+                    fill.style.width = targetWidth;
+                    return;
+                }
+
+                amount.textContent = formatKr(start);
+                fill.style.width = '100%';
+                fill.getBoundingClientRect();
+                fill.style.width = targetWidth;
+
+                const duration = 1400;
+                const startedAt = performance.now();
+                const tick = now => {
+                    const progress = Math.min((now - startedAt) / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    amount.textContent = formatKr(Math.round(start - reduced * eased));
+                    if (progress < 1) requestAnimationFrame(tick);
+                };
+                requestAnimationFrame(tick);
+            }
+
+            // Play the countdown when the card scrolls into view, not on page load where nobody sees it.
+            async function initStudentPrice() {
+                const price = await loadStudentPrice();
+                const card = document.getElementById('student-card');
+                if (!('IntersectionObserver' in window)) {
+                    renderStudentPrice(price);
+                    return;
+                }
+                const observer = new IntersectionObserver(entries => {
+                    if (entries.some(entry => entry.isIntersecting)) {
+                        observer.disconnect();
+                        renderStudentPrice(price);
+                    }
+                }, { threshold: 0.6 });
+                observer.observe(card);
+            }
+
+            document.addEventListener('DOMContentLoaded', loadAttendees);
+            document.addEventListener('DOMContentLoaded', initStudentPrice);
+        </script>
+    </body>
 </html>
