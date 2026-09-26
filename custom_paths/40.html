@@ -275,12 +275,76 @@
                 column-gap: 24px;
             }
             .attendees li {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 8px;
                 padding: 6px 0;
                 border-bottom: 1px solid var(--border);
                 break-inside: avoid;
             }
+            .group-tag {
+                flex-shrink: 0;
+                padding: 2px 8px;
+                border-radius: 999px;
+                background: var(--accent-soft);
+                color: var(--accent);
+                font-family: Montserrat, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+                font-size: 0.72rem;
+                font-weight: 700;
+                white-space: nowrap;
+            }
             .name { display: block; font-weight: 600; }
             .nick { display: block; color: var(--muted); font-size: 0.875rem; }
+
+            .group-picker {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 8px;
+                margin-bottom: 16px;
+            }
+            .group-picker button {
+                padding: 10px 0;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                background: transparent;
+                color: var(--text);
+                font: 700 1rem Montserrat, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+                cursor: pointer;
+            }
+            .group-picker button:hover,
+            .group-picker button:focus-visible { border-color: var(--accent); }
+            .group-picker button[aria-pressed="true"] {
+                background: var(--accent);
+                border-color: var(--accent);
+                color: #0f1a13;
+            }
+            .members {
+                margin: 0 0 8px;
+                color: var(--muted);
+                font-size: 0.9rem;
+            }
+            .find-group {
+                margin: 16px 0 0;
+                padding-top: 12px;
+                border-top: 1px solid var(--border);
+                font-size: 0.9rem;
+            }
+            .find-group a {
+                color: var(--accent);
+                font-weight: 600;
+                text-decoration: none;
+            }
+            .paid {
+                margin-left: 6px;
+                font-size: 0.8em;
+            }
+            .where a,
+            .extra a {
+                color: inherit;
+                text-decoration-color: rgba(163, 168, 176, 0.5);
+                text-underline-offset: 2px;
+            }
 
             @media (max-width: 480px) {
                 .split { grid-template-columns: 1fr; }
@@ -299,6 +363,7 @@
                 <p class="lead">Informationen här uppdateras löpande, så håll utkik! 👀</p>
                 <nav class="jump" aria-label="Innehåll">
                     <a href="#schema">Schema</a>
+                    <a href="#pubrunda">Pubrunda</a>
                     <a href="#kladsel">Klädsel</a>
                     <a href="#pris">Pris</a>
                     <a href="#ovrigt">Övrigt</a>
@@ -331,7 +396,7 @@
                         </li>
                         <li>
                             <span class="time">17:00</span>
-                            <div><span class="what">Pubrunda</span><span class="where">Södermalm</span></div>
+                            <div><span class="what">Pubrunda</span><span class="where">Södermalm</span><span class="extra"><a href="#pubrunda">Din grupps barer ↓</a></span></div>
                         </li>
                         <li>
                             <span class="time">20:30</span>
@@ -343,6 +408,15 @@
                         </li>
                     </ol>
                 </div>
+            </section>
+
+            <section id="pubrunda" class="card">
+                <h2>Pubrunda</h2>
+                <h3 id="group-picker-label">Välj din grupp</h3>
+                <div class="group-picker" id="group-picker" role="group" aria-labelledby="group-picker-label"></div>
+                <p class="members" id="group-members" hidden></p>
+                <ol class="timeline" id="group-route" aria-live="polite" hidden></ol>
+                <p class="find-group"><a href="#anmalda">Vet du inte din grupp? Se Anmälda ↓</a></p>
             </section>
 
             <section id="kladsel" class="card">
@@ -425,35 +499,94 @@
         </main>
 
         <script>
+            const DATA_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSNymrKuKxgs64y0A4nnEfgvmAHfttqJQu6T71cdVB8YLS8b3ZuULeeWqYfC3_Z3bRJqe4rAixmOyk2/pub?gid=210171186&single=true&output=csv';
+            const groupMembers = {};
+
+            // Quote-aware so nicknames like "0, 00%" stay one field.
+            function parseCsv(text) {
+                const rows = [];
+                let row = [];
+                let field = '';
+                let inQuotes = false;
+                for (let i = 0; i < text.length; i++) {
+                    const char = text[i];
+                    if (inQuotes) {
+                        if (char === '"' && text[i + 1] === '"') {
+                            field += '"';
+                            i++;
+                        } else if (char === '"') {
+                            inQuotes = false;
+                        } else {
+                            field += char;
+                        }
+                    } else if (char === '"') {
+                        inQuotes = true;
+                    } else if (char === ',') {
+                        row.push(field);
+                        field = '';
+                    } else if (char === '\n') {
+                        row.push(field);
+                        rows.push(row);
+                        row = [];
+                        field = '';
+                    } else if (char !== '\r') {
+                        field += char;
+                    }
+                }
+                row.push(field);
+                rows.push(row);
+                // Trim every field: values like "Calle Isakson ," have spaces before the comma.
+                return rows
+                    .map(fields => fields.map(value => value.trim()))
+                    .filter(fields => fields.some(value => value !== ''));
+            }
+
+            // Data tab columns: A name, B nickname, C paid (✅), D pub round group.
             async function loadAttendees() {
-                const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSNymrKuKxgs64y0A4nnEfgvmAHfttqJQu6T71cdVB8YLS8b3ZuULeeWqYfC3_Z3bRJqe4rAixmOyk2/pub?gid=210171186&single=true&output=csv');
-                const csvText = await response.text();
-                const rows = csvText.trim().split('\n')
-                    // trim each field, not just the row ends — values like "Calle Isakson ," have spaces before the comma
-                    .map(row => row.split(',').map(field => field.trim()))
-                    .filter(fields => fields.some(field => field !== ''));
+                const response = await fetch(DATA_CSV);
+                const rows = parseCsv(await response.text());
 
                 const list = document.getElementById('attendee-list');
-                rows.forEach(([name, ...rest]) => {
+                rows.forEach(([name, nickname = '', paid = '', group = '']) => {
                     const li = document.createElement('li');
+                    const who = document.createElement('div');
 
                     const nameEl = document.createElement('span');
                     nameEl.className = 'name';
                     nameEl.textContent = name;
-                    li.appendChild(nameEl);
+                    if (paid) {
+                        const paidEl = document.createElement('span');
+                        paidEl.className = 'paid';
+                        paidEl.title = 'Betalt';
+                        paidEl.textContent = '✅';
+                        nameEl.append(paidEl);
+                    }
+                    who.appendChild(nameEl);
 
-                    const nickname = rest.join(', ').replace(/^"|"$/g, '');
                     if (nickname && nickname !== '-') {
                         const nickEl = document.createElement('span');
                         nickEl.className = 'nick';
                         nickEl.textContent = nickname;
-                        li.appendChild(nickEl);
+                        who.appendChild(nickEl);
+                    }
+                    li.appendChild(who);
+
+                    const groupNumber = String(parseInt(group.replace(/\D/g, ''), 10));
+                    if (PUBRUNDA.routes[groupNumber]) {
+                        (groupMembers[groupNumber] ||= []).push(name);
+                        const groupEl = document.createElement('span');
+                        groupEl.className = 'group-tag';
+                        groupEl.textContent = `Grupp ${groupNumber}`;
+                        li.appendChild(groupEl);
                     }
 
                     list.appendChild(li);
                 });
 
                 document.getElementById('attendee-count').textContent = `${rows.length} st`;
+                // A group restored from localStorage was shown before the member data arrived.
+                const selected = document.querySelector('#group-picker button[aria-pressed="true"]');
+                if (selected) renderSelectedMembers(selected.dataset.group);
             }
 
             const STUDENT_START_PRICE = 630;
@@ -531,8 +664,114 @@
                 observer.observe(card);
             }
 
+            // route[i] is the bar for rounds[i].
+            const PUBRUNDA = {
+                rounds: ['17:00', '17:45', '18:30', '19:15'],
+                bars: {
+                    bara_enkelt: { name: 'Bara Enkelt', address: 'Skånegatan 59' },
+                    brother_tuck: { name: 'Brother Tuck', address: 'Götgatan 85' },
+                    brickyard: { name: 'Brickyard', address: 'Skånegatan 88' },
+                    pinocchio: { name: 'Pinocchio', address: 'Östgötagatan 32' },
+                    bar5: { name: 'Söder Bar & Restaurang', address: 'Ringvägen 125' },
+                },
+                routes: {
+                    1: ['brickyard', 'brother_tuck', 'bara_enkelt', 'bar5'],
+                    2: ['pinocchio', 'brickyard', 'brother_tuck', 'bara_enkelt'],
+                    3: ['pinocchio', 'bara_enkelt', 'brickyard', 'brother_tuck'],
+                    4: ['brother_tuck', 'bara_enkelt', 'bar5', 'brickyard'],
+                    5: ['brother_tuck', 'bar5', 'pinocchio', 'bara_enkelt'],
+                    6: ['bar5', 'pinocchio', 'bara_enkelt', 'brickyard'],
+                    7: ['bar5', 'brother_tuck', 'brickyard', 'pinocchio'],
+                    8: ['bara_enkelt', 'bar5', 'brother_tuck', 'pinocchio'],
+                    9: ['brickyard', 'pinocchio', 'bar5', 'brother_tuck'],
+                    10: ['bara_enkelt', 'brickyard', 'pinocchio', 'bar5'],
+                },
+                after: { time: '20:30', name: 'Middag – Himlen', place: 'Himlen', address: 'Götgatan 78' },
+            };
+            const GROUP_STORAGE_KEY = 'acats40-pubrunda-grupp';
+
+            function mapsLink(place, address) {
+                const link = document.createElement('a');
+                link.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${place}, ${address}, Stockholm`)}`;
+                link.target = '_blank';
+                link.rel = 'noopener';
+                link.textContent = address;
+                return link;
+            }
+
+            function routeStop(time, name, place, address) {
+                const li = document.createElement('li');
+
+                const timeEl = document.createElement('span');
+                timeEl.className = 'time';
+                timeEl.textContent = time;
+
+                const what = document.createElement('span');
+                what.className = 'what';
+                what.textContent = name;
+
+                const where = document.createElement('span');
+                where.className = 'where';
+                where.append(address ? mapsLink(place, address) : 'Adress kommer');
+
+                const details = document.createElement('div');
+                details.append(what, where);
+                li.append(timeEl, details);
+                return li;
+            }
+
+            function renderSelectedMembers(group) {
+                const el = document.getElementById('group-members');
+                const members = groupMembers[group] || [];
+                el.textContent = `Grupp ${group}: ${members.join(', ')}`;
+                el.hidden = members.length === 0;
+            }
+
+            function showGroup(group) {
+                document.querySelectorAll('#group-picker button').forEach(button => {
+                    button.setAttribute('aria-pressed', String(button.dataset.group === String(group)));
+                });
+                renderSelectedMembers(group);
+
+                const stops = PUBRUNDA.routes[group].map((barId, i) => {
+                    const bar = PUBRUNDA.bars[barId];
+                    return routeStop(PUBRUNDA.rounds[i], bar.name, bar.name, bar.address);
+                });
+                const { after } = PUBRUNDA;
+                stops.push(routeStop(after.time, after.name, after.place, after.address));
+
+                const route = document.getElementById('group-route');
+                route.replaceChildren(...stops);
+                route.hidden = false;
+
+                try {
+                    localStorage.setItem(GROUP_STORAGE_KEY, String(group));
+                } catch (e) {}
+            }
+
+            function initPubrunda() {
+                const picker = document.getElementById('group-picker');
+                Object.keys(PUBRUNDA.routes).forEach(group => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.dataset.group = group;
+                    button.setAttribute('aria-pressed', 'false');
+                    button.setAttribute('aria-label', `Grupp ${group}`);
+                    button.textContent = group;
+                    button.addEventListener('click', () => showGroup(group));
+                    picker.append(button);
+                });
+
+                let saved = null;
+                try {
+                    saved = localStorage.getItem(GROUP_STORAGE_KEY);
+                } catch (e) {}
+                if (saved && PUBRUNDA.routes[saved]) showGroup(saved);
+            }
+
             document.addEventListener('DOMContentLoaded', loadAttendees);
             document.addEventListener('DOMContentLoaded', initStudentPrice);
+            document.addEventListener('DOMContentLoaded', initPubrunda);
         </script>
     </body>
 </html>
